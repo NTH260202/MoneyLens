@@ -16,7 +16,8 @@ public abstract class BaseResponse<T> {
     private T data;
 
     public static <T> BaseResponse<T> success(T data) {
-        BaseResponse<T> res = new BaseResponse<T>() {};
+        BaseResponse<T> res = new BaseResponse<>() {
+        };
         res.setCode(MoneyLensCode.SUCCESS.getResponseCode());
         res.setMessage(MoneyLensCode.SUCCESS.getMessageCode());
         res.setData(data);
@@ -24,7 +25,8 @@ public abstract class BaseResponse<T> {
     }
 
     public static <T> BaseResponse<T> success() {
-        BaseResponse<T> res = new BaseResponse<T>() {};
+        BaseResponse<T> res = new BaseResponse<>() {
+        };
         res.setCode(MoneyLensCode.SUCCESS.getResponseCode());
         res.setMessage(MoneyLensCode.SUCCESS.getMessageCode());
         return res;
