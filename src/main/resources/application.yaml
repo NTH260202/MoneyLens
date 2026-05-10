@@ -1,3 +1,29 @@
 spring:
   application:
     name: moneylens
+  datasource:
+    url: jdbc:postgresql://localhost:5432/moneylens
+    username: postgres
+    password: 013845
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+
+server:
+  servlet:
+    context-path: /moneylens
+
+
+
