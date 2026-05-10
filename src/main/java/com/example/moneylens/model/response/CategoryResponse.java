@@ -10,6 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 public class CategoryResponse {
     private String code;
-    private String name;
+    private String nameEn;
+    private String nameVn;
     private Type type;
 }

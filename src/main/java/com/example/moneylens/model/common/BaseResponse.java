@@ -1,6 +1,6 @@
 package com.example.moneylens.model.common;
 
-import com.example.moneylens.common.constant.AppCode;
+import com.example.moneylens.common.constant.MoneyLensCode;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -11,22 +11,22 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 public abstract class BaseResponse<T> {
 
-    private AppCode code;
+    private String code;
     private String message;
     private T data;
 
     public static <T> BaseResponse<T> success(T data) {
         BaseResponse<T> res = new BaseResponse<T>() {};
-        res.setCode(AppCode.SUCCESS);
+        res.setCode(MoneyLensCode.SUCCESS.getResponseCode());
+        res.setMessage(MoneyLensCode.SUCCESS.getMessageCode());
         res.setData(data);
-        res.setMessage("Success");
         return res;
     }
 
     public static <T> BaseResponse<T> success() {
         BaseResponse<T> res = new BaseResponse<T>() {};
-        res.setCode(AppCode.SUCCESS);
-        res.setMessage("Success");
+        res.setCode(MoneyLensCode.SUCCESS.getResponseCode());
+        res.setMessage(MoneyLensCode.SUCCESS.getMessageCode());
         return res;
     }
 }

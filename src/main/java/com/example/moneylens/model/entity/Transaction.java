@@ -1,10 +1,7 @@
 package com.example.moneylens.model.entity;
 
 import com.example.moneylens.common.constant.Type;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -23,6 +20,8 @@ public class Transaction {
     private String currency;
     private LocalDateTime transactionDate;
     private String description;
+
+    @Enumerated(EnumType.STRING)
     private Type type;
 
     @ManyToOne

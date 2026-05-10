@@ -1,6 +1,6 @@
 package com.example.moneylens.model.common;
 
-import com.example.moneylens.common.constant.AppCode;
+import com.example.moneylens.common.constant.MoneyLensCode;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -22,8 +22,8 @@ public class PageResponse<T> extends BaseResponse<List<T>> {
     ) {
 
         return PageResponse.<T>builder()
-                .code(AppCode.SUCCESS)
-                .message("Success")
+                .code(MoneyLensCode.SUCCESS.getResponseCode())
+                .message(MoneyLensCode.SUCCESS.getMessageCode())
                 .data(data)
                 .totalPages(totalPages)
                 .totalElements(totalElements)

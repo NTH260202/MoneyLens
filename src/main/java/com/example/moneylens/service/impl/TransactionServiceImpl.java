@@ -1,11 +1,16 @@
 package com.example.moneylens.service.impl;
 
+import com.example.moneylens.common.constant.MoneyLensCode;
+import com.example.moneylens.common.exception.MoneyLensException;
+import com.example.moneylens.mapper.CategoryMapper;
 import com.example.moneylens.mapper.TransactionMapper;
 import com.example.moneylens.model.common.PageResponse;
 import com.example.moneylens.model.common.SortedPageRequest;
+import com.example.moneylens.model.entity.Category;
 import com.example.moneylens.model.entity.Transaction;
 import com.example.moneylens.model.request.CreateTransactionRequest;
 import com.example.moneylens.model.response.TransactionResponse;
+import com.example.moneylens.repository.CategoryRepository;
 import com.example.moneylens.repository.TransactionRepository;
 import com.example.moneylens.service.TransactionService;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -25,12 +31,19 @@ import java.util.UUID;
 public class TransactionServiceImpl implements TransactionService {
     private final TransactionRepository transactionRepository;
     private final TransactionMapper transactionMapper;
+    private final CategoryRepository categoryRepository;
 
     @Override
     public void insertTransaction(CreateTransactionRequest request) {
 
         Transaction transaction = transactionMapper.toEntity(request);
         transaction.setTransactionCode(UUID.randomUUID().toString());
+
+        Category category = categoryRepository
+                .findById(request.getCategoryCode())
+                .orElseThrow(() ->
+                        new MoneyLensException(MoneyLensCode.SUCCESS)
+                );
 
         transactionRepository.save(transaction);
     }

@@ -1,6 +1,6 @@
-package com.example.moneylens.validation;
+package com.example.moneylens.common.validation;
 
-import com.example.moneylens.validation.annotation.ValidCurrency;
+import com.example.moneylens.common.validation.annotation.ValidCurrency;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 

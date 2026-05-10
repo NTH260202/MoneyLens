@@ -1,7 +1,7 @@
 package com.example.moneylens.model.request;
 
 import com.example.moneylens.common.constant.Type;
-import com.example.moneylens.validation.annotation.ValidCurrency;
+import com.example.moneylens.common.validation.annotation.ValidCurrency;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 

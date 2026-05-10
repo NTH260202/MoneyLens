@@ -8,10 +8,11 @@ import org.mapstruct.Mapping;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {CategoryMapper.class})
 public interface TransactionMapper {
     List<TransactionResponse> toResponse(List<Transaction> entity);
 
+    @Mapping(target = "categoryResponse", source = "category")
     TransactionResponse toResponse(Transaction entity);
 
     @Mapping(target = "category.code", source = "categoryCode")
