@@ -1,0 +1,32 @@
+package com.example.moneylens.application.model.common;
+
+import com.example.moneylens.application.common.constant.MoneyLensCode;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
+
+import java.util.List;
+
+@Getter
+@Setter
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
+public class PageResponse<T> extends BaseResponse<List<T>> {
+    private int totalPages;
+    private int totalElements;
+
+    public static <T> PageResponse<T> success(
+            List<T> data,
+            int totalPages,
+            int totalElements
+    ) {
+
+        return PageResponse.<T>builder()
+                .code(MoneyLensCode.SUCCESS.getResponseCode())
+                .message(MoneyLensCode.SUCCESS.getMessageCode())
+                .data(data)
+                .totalPages(totalPages)
+                .totalElements(totalElements)
+                .build();
+    }
+}
