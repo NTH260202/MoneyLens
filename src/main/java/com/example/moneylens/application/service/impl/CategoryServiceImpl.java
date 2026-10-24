@@ -1,6 +1,7 @@
 package com.example.moneylens.application.service.impl;
 
 import com.example.moneylens.application.mapper.CategoryMapper;
+import com.example.moneylens.application.model.request.CreateCategoryRequest;
 import com.example.moneylens.domain.entity.Category;
 import com.example.moneylens.application.model.response.CategoryResponse;
 import com.example.moneylens.domain.repository.CategoryRepository;
@@ -23,5 +24,11 @@ public class CategoryServiceImpl implements CategoryService {
         List<Category> categories = categoryRepository.findAll();
 
         return categoryMapper.toResponse(categories);
+    }
+
+    @Override
+    public void create(CreateCategoryRequest request) {
+        Category category = categoryMapper.toEntity(request);
+        categoryRepository.save(category);
     }
 }

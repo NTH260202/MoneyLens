@@ -1,8 +1,7 @@
 package com.example.moneylens.domain.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import com.example.moneylens.application.common.constant.Type;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -16,9 +15,10 @@ public class Category {
     @Column(length = 30)
     private String code;
 
-    @Column(length = 100)
-    private String nameEn;
+    @Enumerated(EnumType.STRING)
+    private Type type;
 
-    @Column(length = 100)
-    private String nameVn;
+    private String icon;
+
+    private String color;
 }
