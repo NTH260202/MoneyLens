@@ -3,6 +3,7 @@ package com.example.moneylens.application.model.request;
 import com.example.moneylens.application.common.constant.Source;
 import com.example.moneylens.application.common.constant.Type;
 import com.example.moneylens.application.common.validation.annotation.ValidCurrency;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
@@ -23,6 +24,9 @@ public class CreateTransactionRequest {
     private String currency;
 
     private String categoryCode;
+
+    @NotBlank
+    private String title;
 
     private String description;
 

@@ -17,9 +17,14 @@ import java.time.Instant;
 public class Transaction extends BaseEntity {
     @Id
     private String transactionCode;
+
     private BigDecimal amount;
+
     private String currency;
+
     private Instant transactionDate;
+
+    private String title;
 
     @Column(length = 1000)
     private String description;

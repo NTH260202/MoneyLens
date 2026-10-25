@@ -17,6 +17,7 @@ public class TransactionResponse {
     private BigDecimal amount;
     private String currency;
     private Instant transactionDate;
+    private String title;
     private String description;
     private Type type;
     private Source source;
