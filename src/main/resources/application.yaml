@@ -2,9 +2,9 @@ spring:
   application:
     name: moneylens
   datasource:
-    url: jdbc:postgresql://localhost:5432/moneylens
-    username: postgres
-    password: 013845
+    url: ${SPRING_DATASOURCE_URL:}
+    username: ${SPRING_DATASOURCE_USERNAME:}
+    password: ${SPRING_DATASOURCE_PASSWORD:}
     driver-class-name: org.postgresql.Driver
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
@@ -25,5 +25,12 @@ server:
   servlet:
     context-path: /moneylens
 
-
+app:
+  jwt:
+    # BẮT BUỘC đặt biến môi trường JWT_SECRET (>= 32 ký tự) ở môi trường thật.
+    secret: ${JWT_SECRET:}
+    ttl-seconds: 3600
+  login:
+    max-attempts: 5
+    lock-minutes: 15
 
