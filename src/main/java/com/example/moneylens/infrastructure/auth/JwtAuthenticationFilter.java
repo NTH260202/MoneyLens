@@ -1,4 +1,4 @@
-package com.example.moneylens.infrastructure.config.auth;
+package com.example.moneylens.infrastructure.auth;
 
 import com.example.moneylens.application.model.AppUserDetails;
 import com.example.moneylens.application.service.impl.JwtService;

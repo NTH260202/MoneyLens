@@ -1,4 +1,4 @@
-package com.example.moneylens.infrastructure.config;
+package com.example.moneylens.infrastructure;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;

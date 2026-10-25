@@ -1,4 +1,4 @@
-package com.example.moneylens.infrastructure.config.auth;
+package com.example.moneylens.infrastructure.auth;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
