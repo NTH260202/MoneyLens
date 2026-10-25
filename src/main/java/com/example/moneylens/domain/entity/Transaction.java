@@ -1,11 +1,12 @@
 package com.example.moneylens.domain.entity;
 
+import com.example.moneylens.application.common.constant.Source;
 import com.example.moneylens.application.common.constant.Type;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Entity
 @Getter
@@ -13,15 +14,22 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Transaction {
+public class Transaction extends BaseEntity {
     @Id
     private String transactionCode;
     private BigDecimal amount;
     private String currency;
-    private LocalDateTime transactionDate;
+    private Instant transactionDate;
+
+    @Column(length = 1000)
     private String description;
 
     @Enumerated(EnumType.STRING)
+    @Column(length = 30)
+    private Source source;
+
+    @Enumerated(EnumType.STRING)
+    @Column(length = 30)
     private Type type;
 
     @ManyToOne
