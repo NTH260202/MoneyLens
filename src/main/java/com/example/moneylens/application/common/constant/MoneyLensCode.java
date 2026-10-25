@@ -11,7 +11,12 @@ public enum MoneyLensCode {
     /*
      * Category
      */
-    CATEGORY_NOT_FOUND("001", "CATEGORY_NOT_FOUND");
+    CATEGORY_NOT_FOUND("CATE-001", "CATEGORY_NOT_FOUND"),
+
+    /*
+     * Category
+     */
+    TRANSACTION_NOT_FOUND("TRANS-001", "TRANSACTION_NOT_FOUND");
 
     private final String responseCode;
     private final String messageCode;

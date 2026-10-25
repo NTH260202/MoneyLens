@@ -8,5 +8,7 @@ import com.example.moneylens.application.model.response.TransactionResponse;
 public interface TransactionService {
     void insertTransaction(CreateTransactionRequest request);
 
-    PageResponse<TransactionResponse> getAllTransactions(SortedPageRequest sortedPageRequest);
+    PageResponse<TransactionResponse> getAll(SortedPageRequest sortedPageRequest);
+
+    TransactionResponse getDetail(String transactionCode);
 }

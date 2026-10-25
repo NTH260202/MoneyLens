@@ -20,8 +20,15 @@ public class TransactionController {
     @GetMapping
     public ResponseEntity<PageResponse<TransactionResponse>> getAllTransactions(
             @ParameterObject SortedPageRequest sortedPageRequest) {
-        PageResponse<TransactionResponse> response = transactionService.getAllTransactions(sortedPageRequest);
+        PageResponse<TransactionResponse> response = transactionService.getAll(sortedPageRequest);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/{transactionCode}")
+    public ResponseEntity<BaseResponse<TransactionResponse>> getDetailTransaction(
+            @PathVariable String transactionCode) {
+        TransactionResponse response = transactionService.getDetail(transactionCode);
+        return ResponseEntity.ok(BaseResponse.success(response));
     }
 
     @PostMapping

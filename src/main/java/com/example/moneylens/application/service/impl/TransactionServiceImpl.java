@@ -22,6 +22,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -55,7 +56,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public PageResponse<TransactionResponse> getAllTransactions(SortedPageRequest request) {
+    public PageResponse<TransactionResponse> getAll(SortedPageRequest request) {
         Pageable pageable = PageRequest.of(request.getPageNo() - 1, request.getPageSize());
 
         Page<Transaction> transactionPage = transactionRepository.findAll(pageable);
@@ -63,5 +64,16 @@ public class TransactionServiceImpl implements TransactionService {
         List<TransactionResponse> pageContent = transactionMapper.toResponse(transactionPage.getContent());
 
         return PageResponse.success(pageContent, transactionPage.getTotalPages(), transactionPage.getNumberOfElements());
+    }
+
+    @Override
+    public TransactionResponse getDetail(String transactionCode) {
+        Optional<Transaction> transaction = transactionRepository.findById(transactionCode);
+
+        if (transaction.isPresent()) {
+            return transactionMapper.toResponse(transaction.get());
+        }
+
+        throw new MoneyLensException(MoneyLensCode.TRANSACTION_NOT_FOUND);
     }
 }
