@@ -1,10 +1,10 @@
 package com.example.moneylens.interfaces.controller;
 
-import com.example.moneylens.application.model.common.SortedPageRequest;
+import com.example.moneylens.application.model.common.BaseResponse;
 import com.example.moneylens.application.model.common.PageResponse;
 import com.example.moneylens.application.model.request.CreateTransactionRequest;
+import com.example.moneylens.application.model.request.GetTransactionRequest;
 import com.example.moneylens.application.model.response.TransactionResponse;
-import com.example.moneylens.application.model.common.BaseResponse;
 import com.example.moneylens.application.service.TransactionService;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
@@ -19,8 +19,8 @@ public class TransactionController {
 
     @GetMapping
     public ResponseEntity<PageResponse<TransactionResponse>> getAllTransactions(
-            @ParameterObject SortedPageRequest sortedPageRequest) {
-        PageResponse<TransactionResponse> response = transactionService.getAll(sortedPageRequest);
+            @ParameterObject GetTransactionRequest request) {
+        PageResponse<TransactionResponse> response = transactionService.getAll(request);
         return ResponseEntity.ok(response);
     }
 

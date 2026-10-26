@@ -53,6 +53,9 @@ dependencies {
 // Lombok + MapStruct binding
     annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
 
+// Hibernate
+    annotationProcessor 'org.hibernate.orm:hibernate-jpamodelgen'
+
 // Devtools
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 

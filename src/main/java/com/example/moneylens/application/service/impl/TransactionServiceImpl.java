@@ -4,14 +4,16 @@ import com.example.moneylens.application.common.constant.MoneyLensCode;
 import com.example.moneylens.application.common.exception.MoneyLensException;
 import com.example.moneylens.application.mapper.TransactionMapper;
 import com.example.moneylens.application.model.common.PageResponse;
-import com.example.moneylens.application.model.common.SortedPageRequest;
+import com.example.moneylens.application.model.request.CreateTransactionRequest;
+import com.example.moneylens.application.model.request.GetTransactionRequest;
+import com.example.moneylens.application.model.response.TransactionResponse;
+import com.example.moneylens.application.service.TransactionService;
+import com.example.moneylens.domain.SpecBuilder;
 import com.example.moneylens.domain.entity.Category;
 import com.example.moneylens.domain.entity.Transaction;
-import com.example.moneylens.application.model.request.CreateTransactionRequest;
-import com.example.moneylens.application.model.response.TransactionResponse;
+import com.example.moneylens.domain.entity.Transaction_;
 import com.example.moneylens.domain.repository.CategoryRepository;
 import com.example.moneylens.domain.repository.TransactionRepository;
-import com.example.moneylens.application.service.TransactionService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +21,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -56,10 +59,15 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public PageResponse<TransactionResponse> getAll(SortedPageRequest request) {
+    public PageResponse<TransactionResponse> getAll(GetTransactionRequest request) {
         Pageable pageable = PageRequest.of(request.getPageNo() - 1, request.getPageSize());
 
-        Page<Transaction> transactionPage = transactionRepository.findAll(pageable);
+        Specification<Transaction> spec = SpecBuilder.<Transaction>create()
+                .gte(Transaction_.TRANSACTION_DATE, request.getFromDate())
+                .lt(Transaction_.TRANSACTION_DATE, request.getToDate())
+                .build();
+
+        Page<Transaction> transactionPage = transactionRepository.findAll(spec, pageable);
 
         List<TransactionResponse> pageContent = transactionMapper.toResponse(transactionPage.getContent());
 

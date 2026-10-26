@@ -12,7 +12,7 @@ import lombok.*;
 @AllArgsConstructor
 public class Category extends BaseEntity {
     @Id
-    @Column(length = 30)
+    @Column(length = 36)
     private String code;
 
     @Enumerated(EnumType.STRING)

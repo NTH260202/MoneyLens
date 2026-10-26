@@ -1,5 +1,6 @@
 package com.example.moneylens.infrastructure;
 
+import com.example.moneylens.application.model.AppUserDetails;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
@@ -7,7 +8,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Optional;
 
@@ -24,8 +24,8 @@ public class JpaAuditingConfig {
                 return Optional.empty();
             }
             Object principal = auth.getPrincipal();
-            if (principal instanceof UserDetails userDetails) {
-                return Optional.of(userDetails.getUsername());
+            if (principal instanceof AppUserDetails userDetails) {
+                return Optional.of(userDetails.getUserId());
             }
             return Optional.of(principal.toString());
         };

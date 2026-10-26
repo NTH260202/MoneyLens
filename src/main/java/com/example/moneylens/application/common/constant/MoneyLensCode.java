@@ -12,6 +12,7 @@ public enum MoneyLensCode {
      * Category
      */
     CATEGORY_NOT_FOUND("CATE-001", "CATEGORY_NOT_FOUND"),
+    CATEGORY_LIMIT_EXCEEDED("CATE-002", "CATEGORY_LIMIT_EXCEEDED"),
 
     /*
      * Category
