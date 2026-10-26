@@ -7,13 +7,13 @@ import lombok.Data;
 @Data
 public class CreateCategoryRequest {
     @NotBlank
-    private String code;
-
-    @NotBlank
     private Type type;
 
     @NotBlank
     private String icon;
+
+    @NotBlank
+    private String name;
 
     @NotBlank
     private String color;

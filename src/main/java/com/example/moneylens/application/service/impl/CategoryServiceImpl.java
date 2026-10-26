@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -29,6 +30,8 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public void create(CreateCategoryRequest request) {
         Category category = categoryMapper.toEntity(request);
+        category.setCode(UUID.randomUUID().toString());
+
         categoryRepository.save(category);
     }
 }
