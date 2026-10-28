@@ -2,6 +2,7 @@ package com.example.moneylens.application.service.impl;
 
 import com.example.moneylens.application.common.constant.MoneyLensCode;
 import com.example.moneylens.application.common.exception.MoneyLensException;
+import com.example.moneylens.application.common.utils.AuthUtils;
 import com.example.moneylens.application.mapper.TransactionMapper;
 import com.example.moneylens.application.model.common.PageResponse;
 import com.example.moneylens.application.model.request.CreateTransactionRequest;
@@ -9,9 +10,7 @@ import com.example.moneylens.application.model.request.GetTransactionRequest;
 import com.example.moneylens.application.model.response.TransactionResponse;
 import com.example.moneylens.application.service.TransactionService;
 import com.example.moneylens.domain.SpecBuilder;
-import com.example.moneylens.domain.entity.Category;
-import com.example.moneylens.domain.entity.Transaction;
-import com.example.moneylens.domain.entity.Transaction_;
+import com.example.moneylens.domain.entity.*;
 import com.example.moneylens.domain.repository.CategoryRepository;
 import com.example.moneylens.domain.repository.TransactionRepository;
 import jakarta.transaction.Transactional;
@@ -63,8 +62,11 @@ public class TransactionServiceImpl implements TransactionService {
         Pageable pageable = PageRequest.of(request.getPageNo() - 1, request.getPageSize());
 
         Specification<Transaction> spec = SpecBuilder.<Transaction>create()
-                .gte(Transaction_.TRANSACTION_DATE, request.getFromDate())
-                .lt(Transaction_.TRANSACTION_DATE, request.getToDate())
+                .eq(Transaction_.createdBy, AuthUtils.requireUserId())
+                .eq(Transaction_.type, request.getType())
+                .eqPath(request.getCategoryCode(), Transaction_.category, Category_.code)
+                .gte(Transaction_.transactionDate, request.getFromDate())
+                .lt(Transaction_.transactionDate, request.getToDate())
                 .build();
 
         Page<Transaction> transactionPage = transactionRepository.findAll(spec, pageable);

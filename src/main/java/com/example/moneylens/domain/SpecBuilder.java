@@ -3,13 +3,16 @@ package com.example.moneylens.domain;
 import jakarta.persistence.criteria.Path;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
+import jakarta.persistence.metamodel.SingularAttribute;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
+/** Xây query động bằng JPA metamodel: điều kiện nào có giá trị null / rỗng sẽ tự bị bỏ qua. */
 public final class SpecBuilder<T> {
 
     private final List<Specification<T>> specs = new ArrayList<>();
@@ -21,46 +24,81 @@ public final class SpecBuilder<T> {
         return new SpecBuilder<>();
     }
 
-    /** field = value. Hỗ trợ đường dẫn lồng nhau, ví dụ "category.id". */
-    public SpecBuilder<T> eq(String field, Object value) {
+    /** field = value. Ví dụ: eq(Transaction_.type, request.getType()) */
+    public <Y> SpecBuilder<T> eq(SingularAttribute<? super T, Y> attr, Y value) {
         if (hasValue(value)) {
-            specs.add((root, query, cb) -> cb.equal(path(root, field), value));
+            specs.add((root, query, cb) -> cb.equal(root.get(attr), value));
         }
         return this;
     }
 
-    /** field IN (values). */
-    public SpecBuilder<T> in(String field, Collection<?> values) {
+    /** field lồng nhau = value. Ví dụ: eqPath(userId, Transaction_.user, User_.id) */
+    public SpecBuilder<T> eqPath(Object value, SingularAttribute<?, ?>... attrs) {
+        if (hasValue(value)) {
+            specs.add((root, query, cb) -> cb.equal(path(root, attrs), value));
+        }
+        return this;
+    }
+
+    /** field IN (values). Ví dụ: in(Transaction_.type, List.of(INCOME, EXPENSE)) */
+    public <Y> SpecBuilder<T> in(SingularAttribute<? super T, Y> attr, Collection<? extends Y> values) {
         if (hasValue(values)) {
-            specs.add((root, query, cb) -> path(root, field).in(values));
+            specs.add((root, query, cb) -> root.get(attr).in(values));
         }
         return this;
     }
 
-    /** Tìm keyword (không phân biệt hoa thường) trên một hoặc nhiều field, nối bằng OR. */
-    public SpecBuilder<T> like(String keyword, String... fields) {
+    /** field lồng nhau IN (values). Ví dụ: inPath(categoryIds, Transaction_.category, Category_.id) */
+    public SpecBuilder<T> inPath(Collection<?> values, SingularAttribute<?, ?>... attrs) {
+        if (hasValue(values)) {
+            specs.add((root, query, cb) -> path(root, attrs).in(values));
+        }
+        return this;
+    }
+
+    /** Tìm keyword (không phân biệt hoa thường) trên một hoặc nhiều field String, nối bằng OR. */
+    @SafeVarargs
+    public final SpecBuilder<T> like(String keyword, SingularAttribute<? super T, String>... attrs) {
         if (hasValue(keyword)) {
-            String pattern = "%" + escape(keyword.trim().toLowerCase()) + "%";
+            String pattern = toLikePattern(keyword);
             specs.add((root, query, cb) -> cb.or(
-                    java.util.Arrays.stream(fields)
-                            .map(f -> cb.like(cb.lower(SpecBuilder.<String>path(root, f)), pattern, '\\'))
+                    Arrays.stream(attrs)
+                            .map(a -> cb.like(cb.lower(root.get(a)), pattern, '\\'))
                             .toArray(Predicate[]::new)));
         }
         return this;
     }
 
-    /** field >= value. */
-    public <Y extends Comparable<? super Y>> SpecBuilder<T> gte(String field, Y value) {
+    /** Tìm keyword trên field String lồng nhau. Ví dụ: likePath(kw, Transaction_.category, Category_.code) */
+    public SpecBuilder<T> likePath(String keyword, SingularAttribute<?, ?>... attrs) {
+        if (hasValue(keyword)) {
+            String pattern = toLikePattern(keyword);
+            specs.add((root, query, cb) ->
+                    cb.like(cb.lower(SpecBuilder.<String>path(root, attrs)), pattern, '\\'));
+        }
+        return this;
+    }
+
+    /** field >= value. Ví dụ: gte(Transaction_.transactionDate, request.getFromDate()) */
+    public <Y extends Comparable<? super Y>> SpecBuilder<T> gte(SingularAttribute<? super T, Y> attr, Y value) {
         if (value != null) {
-            specs.add((root, query, cb) -> cb.greaterThanOrEqualTo(SpecBuilder.<Y>path(root, field), value));
+            specs.add((root, query, cb) -> cb.greaterThanOrEqualTo(root.get(attr), value));
+        }
+        return this;
+    }
+
+    /** field <= value. */
+    public <Y extends Comparable<? super Y>> SpecBuilder<T> lte(SingularAttribute<? super T, Y> attr, Y value) {
+        if (value != null) {
+            specs.add((root, query, cb) -> cb.lessThanOrEqualTo(root.get(attr), value));
         }
         return this;
     }
 
     /** field < value. */
-    public <Y extends Comparable<? super Y>> SpecBuilder<T> lt(String field, Y value) {
+    public <Y extends Comparable<? super Y>> SpecBuilder<T> lt(SingularAttribute<? super T, Y> attr, Y value) {
         if (value != null) {
-            specs.add((root, query, cb) -> cb.lessThan(SpecBuilder.<Y>path(root, field), value));
+            specs.add((root, query, cb) -> cb.lessThan(root.get(attr), value));
         }
         return this;
     }
@@ -80,15 +118,25 @@ public final class SpecBuilder<T> {
                 .toArray(Predicate[]::new));
     }
 
-    // ------------------------------------------------------------------
+    // ---------------------------------------------------------------------
 
-    @SuppressWarnings("unchecked")
-    private static <Y> Path<Y> path(Root<?> root, String dotted) {
-        Path<?> p = root;
-        for (String part : dotted.split("\\.")) {
-            p = p.get(part);
+    /** Đi theo chuỗi metamodel, ví dụ Transaction_.category, Category_.id. */
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    private static <Y> Path<Y> path(Root<?> root, SingularAttribute<?, ?>... attrs) {
+        Path p = root;
+        for (SingularAttribute a : attrs) {
+            p = p.get(a);
         }
         return (Path<Y>) p;
+    }
+
+    private static String toLikePattern(String keyword) {
+        return "%" + escape(keyword.trim().toLowerCase()) + "%";
+    }
+
+    /** Escape ký tự đặc biệt của LIKE để keyword "50%" không bị hiểu thành wildcard. */
+    private static String escape(String s) {
+        return s.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_");
     }
 
     private static boolean hasValue(Object value) {
@@ -96,10 +144,5 @@ public final class SpecBuilder<T> {
         if (value instanceof String s) return !s.isBlank();
         if (value instanceof Collection<?> c) return !c.isEmpty();
         return true;
-    }
-
-    /** Escape ký tự đặc biệt của LIKE để keyword "50%" không bị hiểu thành wildcard. */
-    private static String escape(String s) {
-        return s.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_");
     }
 }
