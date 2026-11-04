@@ -29,7 +29,7 @@ public class Fund extends BaseEntity {
     private Instant fromDate;
 
     @Column(name = "to_date")
-    private Instant to;
+    private Instant toDate;
 
     @OneToMany(mappedBy = "fund")
     private List<FundMember> members;
