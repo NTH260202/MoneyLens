@@ -17,14 +17,14 @@ public class CreateFundRequest {
     private String description;
 
     @NotBlank
-    private FundType type;
+    private FundType fundType;
 
     @NotEmpty
     private List<FundMember> members;
 
-    private Instant from;
+    private Instant fromDate;
 
-    private Instant to;
+    private Instant toDate;
 
     @Getter
     @Setter

@@ -1,0 +1,64 @@
+package com.example.moneylens.application.service.impl;
+
+import com.example.moneylens.application.common.constant.FundRole;
+import com.example.moneylens.application.mapper.FundMapper;
+import com.example.moneylens.application.model.common.PageResponse;
+import com.example.moneylens.application.model.request.CreateFundRequest;
+import com.example.moneylens.application.model.request.GetFundRequest;
+import com.example.moneylens.application.model.response.FundDetailResponse;
+import com.example.moneylens.application.model.response.FundResponse;
+import com.example.moneylens.application.service.FundService;
+import com.example.moneylens.domain.entity.Fund;
+import com.example.moneylens.domain.entity.FundMember;
+import com.example.moneylens.domain.entity.User;
+import com.example.moneylens.domain.repository.FundRepository;
+import com.example.moneylens.domain.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+@Slf4j
+@RequiredArgsConstructor
+public class FundServiceImpl implements FundService {
+    private final FundRepository fundRepository;
+    private final FundMapper fundMapper;
+    private final UserRepository userRepository;
+
+    @Override
+    public void createFund(CreateFundRequest request) {
+        Fund fund = fundMapper.toEntity(request);
+        List<FundMember> fundMembers = new ArrayList<>();
+
+        for (CreateFundRequest.FundMember member: request.getMembers()) {
+            FundMember fundMember = new FundMember();
+            if (!member.getRole().equals(FundRole.ANONYMOUS)) {
+                User loginUser = userRepository.findUserByUsername(member.getMemberUsername()).orElseThrow();
+
+                fundMember.setUser(loginUser);
+                fundMember.setRole(member.getRole());
+            } else {
+                fundMember.setMemberName(member.getMemberUsername());
+                fundMember.setRole(member.getRole());
+            }
+
+            fundMembers.add(fundMember);
+        }
+
+        fund.setMembers(fundMembers);
+        fundRepository.save(fund);
+    }
+
+    @Override
+    public FundDetailResponse getDetail(String id) {
+        return null;
+    }
+
+    @Override
+    public PageResponse<FundResponse> getAll(GetFundRequest request) {
+        return null;
+    }
+}
