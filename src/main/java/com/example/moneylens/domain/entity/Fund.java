@@ -1,5 +1,6 @@
 package com.example.moneylens.domain.entity;
 
+import com.example.moneylens.application.common.constant.FundStatus;
 import com.example.moneylens.application.common.constant.FundType;
 import jakarta.persistence.*;
 import lombok.*;
@@ -33,4 +34,8 @@ public class Fund extends BaseEntity {
 
     @OneToMany(mappedBy = "fund")
     private List<FundMember> members;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false, columnDefinition = "varchar(30) default 'OPEN'")
+    private FundStatus status;
 }

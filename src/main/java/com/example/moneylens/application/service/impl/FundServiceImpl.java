@@ -1,6 +1,7 @@
 package com.example.moneylens.application.service.impl;
 
 import com.example.moneylens.application.common.constant.FundRole;
+import com.example.moneylens.application.common.constant.FundStatus;
 import com.example.moneylens.application.common.constant.MoneyLensCode;
 import com.example.moneylens.application.common.exception.MoneyLensException;
 import com.example.moneylens.application.common.utils.AuthUtils;
@@ -11,13 +12,16 @@ import com.example.moneylens.application.model.request.fund.GetFundRequest;
 import com.example.moneylens.application.model.response.fund.FundDetailResponse;
 import com.example.moneylens.application.model.response.fund.FundResponse;
 import com.example.moneylens.application.service.FundService;
-import com.example.moneylens.domain.entity.Fund;
-import com.example.moneylens.domain.entity.FundMember;
-import com.example.moneylens.domain.entity.User;
+import com.example.moneylens.domain.SpecBuilder;
+import com.example.moneylens.domain.entity.*;
 import com.example.moneylens.domain.repository.FundRepository;
 import com.example.moneylens.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -43,6 +47,7 @@ public class FundServiceImpl implements FundService {
 
         Fund fund = fundMapper.toEntity(request);
         fund.setId(UUID.randomUUID().toString());
+        fund.setStatus(FundStatus.OPEN);
 
         List<FundMember> fundMembers = new ArrayList<>();
 
@@ -79,6 +84,17 @@ public class FundServiceImpl implements FundService {
 
     @Override
     public PageResponse<FundResponse> getAll(GetFundRequest request) {
-        return null;
+        Pageable pageable = PageRequest.of(request.getPageNo() - 1, request.getPageSize());
+
+        Specification<Fund> spec = SpecBuilder.<Fund>create()
+                .eq(Fund_.createdBy, AuthUtils.requireUserId())
+                .eq(Fund_.status, request.getStatus())
+                .build();
+
+        Page<Fund> fundPage = fundRepository.findAll(spec, pageable);
+
+        List<FundResponse> pageContent = fundMapper.toResponse(fundPage.getContent());
+
+        return PageResponse.success(pageContent, fundPage.getTotalPages(), fundPage.getNumberOfElements());
     }
 }
