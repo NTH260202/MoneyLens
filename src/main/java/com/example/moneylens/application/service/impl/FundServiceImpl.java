@@ -1,6 +1,9 @@
 package com.example.moneylens.application.service.impl;
 
 import com.example.moneylens.application.common.constant.FundRole;
+import com.example.moneylens.application.common.constant.MoneyLensCode;
+import com.example.moneylens.application.common.exception.MoneyLensException;
+import com.example.moneylens.application.common.utils.AuthUtils;
 import com.example.moneylens.application.mapper.FundMapper;
 import com.example.moneylens.application.model.common.PageResponse;
 import com.example.moneylens.application.model.request.CreateFundRequest;
@@ -31,10 +34,24 @@ public class FundServiceImpl implements FundService {
 
     @Override
     public void createFund(CreateFundRequest request) {
+        if (request.getMembers().stream().anyMatch(member -> member.getRole().equals(FundRole.OWNER))) {
+            throw new MoneyLensException(MoneyLensCode.FUND_OWNER_ALREADY_EXISTS);
+        }
+
+        String ownerId = AuthUtils.requireUserId();
+        User owner = userRepository.findById(ownerId).orElseThrow();
+
         Fund fund = fundMapper.toEntity(request);
         fund.setId(UUID.randomUUID().toString());
 
         List<FundMember> fundMembers = new ArrayList<>();
+
+        fundMembers.add(FundMember.builder()
+                .fund(fund)
+                .user(owner)
+                .role(FundRole.OWNER)
+                .build()
+        );
 
         for (CreateFundRequest.FundMember member: request.getMembers()) {
             FundMember fundMember = new FundMember();

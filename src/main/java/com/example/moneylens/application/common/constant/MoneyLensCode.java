@@ -24,7 +24,14 @@ public enum MoneyLensCode {
     /**
      * Category
      */
-    TRANSACTION_NOT_FOUND("TRANS-001", "TRANSACTION_NOT_FOUND", HttpStatus.NOT_FOUND);
+    TRANSACTION_NOT_FOUND("TRANS-001", "TRANSACTION_NOT_FOUND", HttpStatus.NOT_FOUND),
+
+    /**
+     * Fund
+     */
+    FUND_OWNER_ALREADY_EXISTS("FUND-001", "FUND_OWNER_ALREADY_EXISTS", HttpStatus.BAD_REQUEST),
+
+    ;
 
     private final String responseCode;
     private final String messageCode;
