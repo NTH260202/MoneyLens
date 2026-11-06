@@ -2,7 +2,7 @@ package com.example.moneylens.interfaces.controller;
 
 import com.example.moneylens.application.common.constant.Type;
 import com.example.moneylens.application.model.common.BaseResponse;
-import com.example.moneylens.application.model.response.CategoryBreakdownResponse;
+import com.example.moneylens.application.model.response.category.CategoryBreakdownResponse;
 import com.example.moneylens.application.service.StatisticsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

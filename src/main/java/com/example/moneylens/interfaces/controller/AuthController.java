@@ -1,9 +1,9 @@
 package com.example.moneylens.interfaces.controller;
 
 import com.example.moneylens.application.model.common.BaseResponse;
-import com.example.moneylens.application.model.request.LoginRequest;
-import com.example.moneylens.application.model.request.RefreshTokenRequest;
-import com.example.moneylens.application.model.response.LoginResponse;
+import com.example.moneylens.application.model.request.auth.LoginRequest;
+import com.example.moneylens.application.model.request.auth.RefreshTokenRequest;
+import com.example.moneylens.application.model.response.auth.LoginResponse;
 import com.example.moneylens.application.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

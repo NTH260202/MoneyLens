@@ -2,9 +2,9 @@ package com.example.moneylens.interfaces.controller;
 
 import com.example.moneylens.application.model.common.BaseResponse;
 import com.example.moneylens.application.model.common.PageResponse;
-import com.example.moneylens.application.model.request.CreateTransactionRequest;
-import com.example.moneylens.application.model.request.GetTransactionRequest;
-import com.example.moneylens.application.model.response.TransactionResponse;
+import com.example.moneylens.application.model.request.transaction.CreateTransactionRequest;
+import com.example.moneylens.application.model.request.transaction.GetTransactionRequest;
+import com.example.moneylens.application.model.response.transaction.TransactionResponse;
 import com.example.moneylens.application.service.TransactionService;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;

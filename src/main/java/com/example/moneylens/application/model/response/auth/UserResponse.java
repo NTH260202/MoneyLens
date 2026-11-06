@@ -1,4 +1,4 @@
-package com.example.moneylens.application.model.response;
+package com.example.moneylens.application.model.response.auth;
 
 import java.time.Instant;
 

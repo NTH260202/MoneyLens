@@ -1,4 +1,4 @@
-package com.example.moneylens.application.model.request;
+package com.example.moneylens.application.model.request.category;
 
 import com.example.moneylens.application.common.constant.Type;
 import jakarta.validation.constraints.NotBlank;

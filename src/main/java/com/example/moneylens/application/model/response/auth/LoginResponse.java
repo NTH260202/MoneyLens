@@ -1,4 +1,4 @@
-package com.example.moneylens.application.model.response;
+package com.example.moneylens.application.model.response.auth;
 
 public record LoginResponse(String accessToken
         , String refreshToken

@@ -1,8 +1,8 @@
 package com.example.moneylens.application.mapper;
 
-import com.example.moneylens.application.model.request.CreateCategoryRequest;
+import com.example.moneylens.application.model.request.category.CreateCategoryRequest;
 import com.example.moneylens.domain.entity.Category;
-import com.example.moneylens.application.model.response.CategoryResponse;
+import com.example.moneylens.application.model.response.category.CategoryResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

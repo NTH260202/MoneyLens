@@ -2,20 +2,16 @@ package com.example.moneylens.interfaces.controller;
 
 import com.example.moneylens.application.model.common.BaseResponse;
 import com.example.moneylens.application.model.common.PageResponse;
-import com.example.moneylens.application.model.request.CreateCategoryRequest;
-import com.example.moneylens.application.model.request.CreateFundRequest;
-import com.example.moneylens.application.model.request.GetFundRequest;
-import com.example.moneylens.application.model.response.CategoryResponse;
-import com.example.moneylens.application.model.response.FundDetailResponse;
-import com.example.moneylens.application.model.response.FundResponse;
+import com.example.moneylens.application.model.request.fund.CreateFundRequest;
+import com.example.moneylens.application.model.request.fund.GetFundRequest;
+import com.example.moneylens.application.model.response.fund.FundDetailResponse;
+import com.example.moneylens.application.model.response.fund.FundResponse;
 import com.example.moneylens.application.service.FundService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/v1/funds")

@@ -1,8 +1,8 @@
 package com.example.moneylens.interfaces.controller;
 
 import com.example.moneylens.application.model.common.BaseResponse;
-import com.example.moneylens.application.model.request.CreateCategoryRequest;
-import com.example.moneylens.application.model.response.CategoryResponse;
+import com.example.moneylens.application.model.request.category.CreateCategoryRequest;
+import com.example.moneylens.application.model.response.category.CategoryResponse;
 import com.example.moneylens.application.service.CategoryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

@@ -1,6 +1,6 @@
 package com.example.moneylens.application.mapper;
 
-import com.example.moneylens.application.model.request.CreateFundRequest;
+import com.example.moneylens.application.model.request.fund.CreateFundRequest;
 import com.example.moneylens.domain.entity.Fund;
 import org.mapstruct.Mapper;
 

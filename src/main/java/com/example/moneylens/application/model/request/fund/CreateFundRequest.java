@@ -1,4 +1,4 @@
-package com.example.moneylens.application.model.request;
+package com.example.moneylens.application.model.request.fund;
 
 import com.example.moneylens.application.common.constant.FundRole;
 import com.example.moneylens.application.common.constant.FundType;

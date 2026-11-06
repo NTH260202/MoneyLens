@@ -2,7 +2,7 @@ package com.example.moneylens.application.service.impl;
 
 import com.example.moneylens.application.common.constant.Type;
 import com.example.moneylens.application.common.utils.AuthUtils;
-import com.example.moneylens.application.model.response.CategoryBreakdownResponse;
+import com.example.moneylens.application.model.response.category.CategoryBreakdownResponse;
 import com.example.moneylens.application.service.StatisticsService;
 import com.example.moneylens.domain.projection.CategoryStat;
 import com.example.moneylens.domain.repository.TransactionRepository;

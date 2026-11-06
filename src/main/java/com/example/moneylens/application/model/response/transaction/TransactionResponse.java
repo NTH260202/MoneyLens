@@ -1,7 +1,8 @@
-package com.example.moneylens.application.model.response;
+package com.example.moneylens.application.model.response.transaction;
 
 import com.example.moneylens.application.common.constant.Source;
 import com.example.moneylens.application.common.constant.Type;
+import com.example.moneylens.application.model.response.category.CategoryResponse;
 import lombok.*;
 
 import java.math.BigDecimal;

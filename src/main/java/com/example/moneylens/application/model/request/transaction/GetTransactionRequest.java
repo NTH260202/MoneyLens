@@ -1,4 +1,4 @@
-package com.example.moneylens.application.model.request;
+package com.example.moneylens.application.model.request.transaction;
 
 import com.example.moneylens.application.common.constant.Type;
 import com.example.moneylens.application.model.common.SortedPageRequest;

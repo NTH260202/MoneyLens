@@ -1,8 +1,8 @@
 package com.example.moneylens.application.mapper;
 
 import com.example.moneylens.domain.entity.Transaction;
-import com.example.moneylens.application.model.request.CreateTransactionRequest;
-import com.example.moneylens.application.model.response.TransactionResponse;
+import com.example.moneylens.application.model.request.transaction.CreateTransactionRequest;
+import com.example.moneylens.application.model.response.transaction.TransactionResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

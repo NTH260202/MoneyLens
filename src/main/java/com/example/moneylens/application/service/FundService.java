@@ -1,10 +1,10 @@
 package com.example.moneylens.application.service;
 
 import com.example.moneylens.application.model.common.PageResponse;
-import com.example.moneylens.application.model.request.CreateFundRequest;
-import com.example.moneylens.application.model.request.GetFundRequest;
-import com.example.moneylens.application.model.response.FundDetailResponse;
-import com.example.moneylens.application.model.response.FundResponse;
+import com.example.moneylens.application.model.request.fund.CreateFundRequest;
+import com.example.moneylens.application.model.request.fund.GetFundRequest;
+import com.example.moneylens.application.model.response.fund.FundDetailResponse;
+import com.example.moneylens.application.model.response.fund.FundResponse;
 
 public interface FundService {
     void createFund(CreateFundRequest request);

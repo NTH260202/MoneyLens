@@ -1,4 +1,4 @@
-package com.example.moneylens.application.model.response;
+package com.example.moneylens.application.model.response.category;
 
 import com.example.moneylens.application.common.constant.Type;
 import lombok.*;
