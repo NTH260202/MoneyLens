@@ -6,6 +6,7 @@ import com.example.moneylens.application.model.request.transaction.CreateTransac
 import com.example.moneylens.application.model.request.transaction.GetTransactionRequest;
 import com.example.moneylens.application.model.response.transaction.TransactionResponse;
 import com.example.moneylens.application.service.TransactionService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class TransactionController {
 
     @GetMapping
     public ResponseEntity<PageResponse<TransactionResponse>> getAllTransactions(
-            @ParameterObject GetTransactionRequest request) {
+            @ParameterObject @Valid GetTransactionRequest request) {
         PageResponse<TransactionResponse> response = transactionService.getAll(request);
         return ResponseEntity.ok(response);
     }
