@@ -32,6 +32,7 @@ public class CreateFundRequest {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class FundMember {
+        @NotBlank
         private String memberUsername;
 
         @NotNull

@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -31,6 +32,8 @@ public class FundServiceImpl implements FundService {
     @Override
     public void createFund(CreateFundRequest request) {
         Fund fund = fundMapper.toEntity(request);
+        fund.setId(UUID.randomUUID().toString());
+
         List<FundMember> fundMembers = new ArrayList<>();
 
         for (CreateFundRequest.FundMember member: request.getMembers()) {
