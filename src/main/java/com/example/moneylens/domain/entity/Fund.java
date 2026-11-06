@@ -40,5 +40,5 @@ public class Fund extends BaseEntity {
     @Column(length = 30, nullable = false)
     @ColumnDefault("'OPEN'")
     @Builder.Default
-    private FundStatus status;
+    private FundStatus status = FundStatus.OPEN;
 }
