@@ -4,6 +4,7 @@ import com.example.moneylens.application.common.constant.FundStatus;
 import com.example.moneylens.application.common.constant.FundType;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.time.Instant;
 import java.util.List;
@@ -36,6 +37,8 @@ public class Fund extends BaseEntity {
     private List<FundMember> members;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false, columnDefinition = "varchar(30) default 'OPEN'")
+    @Column(length = 30, nullable = false)
+    @ColumnDefault("'OPEN'")
+    @Builder.Default
     private FundStatus status;
 }
